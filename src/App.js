@@ -1,3 +1,7 @@
+import database from './firebase';
+
+console.log({ database });
+
 function App() {
   return (
     <div>
