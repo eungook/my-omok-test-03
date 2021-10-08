@@ -1,4 +1,5 @@
 import database from './firebase';
+import { isOmok } from './omok';
 
 console.log({ database });
 
