@@ -1,12 +1,10 @@
-import database from './firebase';
-import { isOmok } from './omok';
-
-console.log({ database });
+import Board from './Board';
 
 function App() {
   return (
     <div>
       <h3>my-omok-test-03</h3>
+      <Board />
     </div>
   );
 }
