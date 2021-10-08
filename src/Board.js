@@ -1,11 +1,23 @@
-import { useState } from 'react';
-import { database } from './firebase';
+import { useState, useEffect } from 'react';
+import { createRoom, joinRoom } from './firebase';
 import { isOmok } from './omok';
 import Cell from './Cell';
 
-console.log({ database });
-
 function Board(props) {
+	useEffect(() => componentDidMount(), []);
+	async function componentDidMount() {
+		const roomKey = await createRoom();
+		const color = 'B'; // B: 검은 돌
+		const userKey = await joinRoom(roomKey, color);
+		console.log({
+			where: 'Board.js, componentDidMount()',
+			roomKey,
+			color,
+			userKey,
+		});
+		return userKey;
+	}
+
 	const [board, setBoard] = useState([
 		// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
 		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 0
