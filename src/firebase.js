@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
+import {
+  getDatabase,
+  push,
+  child,
+  ref,
+  update,
+  onValue,
+} from 'firebase/database';
 import dotenv from 'dotenv';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -22,7 +29,25 @@ console.log({ firebaseConfig });
 const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase();
 
+/**
+ * 새 오목방을 만든다
+ * @returns 새 오목방의 key
+ */
+async function createRoom() {
+  const newKey = push(child(ref(database), 'room')).key;
+  const updates = {};
+  const now = new Date();
+  updates[`/room/${newKey}`] = {
+    createAt: now.getTime(),
+    createAtISO: now.toISOString(),
+    createAtLocale: now.toLocaleString(),
+  };
+  await update(ref(database), updates);
+  return newKey;
+}
+
 export {
   firebaseApp,
-  database
+  database,
+  createRoom,
 };
