@@ -34,30 +34,32 @@ function Board(props) {
 	const [color, setColor] = useState('B'); // B: 검은 돌, W: 흰 돌
 
 	return (
-		<div id="div-board">
-			{board.map((row, y) => {
-				return (
-					<div key={`row-${y}`}>
-						{row.map((cell, x) => {
-							return (
-								<Cell
-									key={`cell-${y}-${x}`}
-									onClick={() => onClickCell(y, x)}
-								>
-									{cell}
-								</Cell>
-							);
-						})}
-					</div>
-				);
-			})}
+		<>
+			<div id="div-board">
+				{board.map((row, y) => {
+					return (
+						<div key={`row-${y}`}>
+							{row.map((cell, x) => {
+								return (
+									<Cell
+										key={`cell-${y}-${x}`}
+										onClick={() => onClickCell(y, x)}
+									>
+										{cell}
+									</Cell>
+								);
+							})}
+						</div>
+					);
+				})}
+			</div>
 			<style jsx>{`
-        button {
-          width: 50px;
-          height: 50px;
-        }
-      `}</style>
-		</div>
+			button {
+				width: 50px;
+				height: 50px;
+			}
+		`}</style>
+		</>
 	);
 
 	/**
