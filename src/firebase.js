@@ -46,8 +46,31 @@ async function createRoom() {
   return key;
 }
 
+/**
+ * 오목방에 입장한다
+ * @param {*} roomKey 오목방의 key
+ * @param {*} color 입장하는 사람의 돌 색깔
+ * @returns 입장한 사람의 key
+ */
+async function joinRoom(roomKey, color) {
+  const updates = {};
+
+  const key = push(child(ref(database), `room/${roomKey}/user`)).key;
+  const now = new Date();
+  updates[`/room/${roomKey}/user/${key}`] = {
+    createAt: now.getTime(),
+    createAtISO: now.toISOString(),
+    createAtLocale: now.toLocaleString(),
+    color,
+  };
+
+  await update(ref(database), updates);
+  return key;
+}
+
 export {
   firebaseApp,
   database,
   createRoom,
+  joinRoom,
 };
