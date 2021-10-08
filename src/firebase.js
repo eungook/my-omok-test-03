@@ -34,16 +34,16 @@ const database = getDatabase();
  * @returns 새 오목방의 key
  */
 async function createRoom() {
-  const newKey = push(child(ref(database), 'room')).key;
+  const key = push(child(ref(database), 'room')).key;
   const updates = {};
   const now = new Date();
-  updates[`/room/${newKey}`] = {
+  updates[`/room/${key}`] = {
     createAt: now.getTime(),
     createAtISO: now.toISOString(),
     createAtLocale: now.toLocaleString(),
   };
   await update(ref(database), updates);
-  return newKey;
+  return key;
 }
 
 export {

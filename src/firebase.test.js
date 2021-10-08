@@ -9,8 +9,8 @@ describe('firebase.js', () => {
 	});
 
 	it('createRoom()', async () => {
-		const newKey = await createRoom();
-		console.log({ newKey });
-		expect(newKey).toBeTruthy();
+		const key = await createRoom();
+		console.log({ key });
+		expect(key).toBeTruthy();
 	});
 });
