@@ -7,32 +7,6 @@ import Cell from './Cell';
 
 function Board(props) {
 	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
-
-	useEffect(() => componentDidMount(), []);
-	async function componentDidMount() {
-		const roomKey = await createRoom();
-		const color = 'B'; // B: 검은 돌
-		const userKey = await joinRoom(roomKey, color);
-
-		setColor(color);
-
-		console.log({
-			where: 'Board.js, componentDidMount()',
-			roomKey,
-			color,
-			userKey,
-		});
-
-		return userKey;
-	}
-
-	useEffect(() => {
-		console.log({
-			'where': 'useEffect([color])',
-			color,
-		});
-	}, [color]);
-
 	const [board, setBoard] = useState([
 		// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
 		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 0
