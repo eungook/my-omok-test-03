@@ -1,6 +1,12 @@
+import { useHistory } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { createRoom, joinRoom } from './firebase';
+import { colorState } from './atom';
 
 function Create() {
+	const history = useHistory();
+	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+
 	return (
 		<div>
 			<h3>새 방 만들기</h3>
@@ -31,6 +37,7 @@ function Create() {
 
 		const form = e.target;
 		const color = form.color.value;
+		setColor(color);
 
 		const roomKey = await createRoom();
 		const userKey = await joinRoom(roomKey, color);
@@ -40,6 +47,9 @@ function Create() {
 			roomKey,
 			userKey,
 		});
+
+		const url = `/room/${roomKey}`;
+		history.replace(url);
 	}
 }
 
