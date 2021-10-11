@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import App from './App';
 import Test from './Test';
+import Create from './Create';
 import NotFound from './NotFound';
 
 function Router() {
@@ -13,6 +14,9 @@ function Router() {
 			<Switch>
 				<Route path="/test">
 					<Test />
+				</Route>
+				<Route path="/create">
+					<Create />
 				</Route>
 				<Route exact path="/">
 					<App />
