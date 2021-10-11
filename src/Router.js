@@ -6,6 +6,7 @@ import {
 import App from './App';
 import Test from './Test';
 import Create from './Create';
+import Room from './Room';
 import NotFound from './NotFound';
 
 function Router() {
@@ -17,6 +18,9 @@ function Router() {
 				</Route>
 				<Route path="/create">
 					<Create />
+				</Route>
+				<Route path="/room/:roomKey">
+					<Room />
 				</Route>
 				<Route exact path="/">
 					<App />
