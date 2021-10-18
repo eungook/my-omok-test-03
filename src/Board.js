@@ -31,7 +31,7 @@ function Board(props) {
 								return (
 									<Cell
 										key={`cell-${y}-${x}`}
-										onClick={() => onClickCell(y, x)}
+										onClick={() => onClickCell([y, x])}
 									>
 										{cell}
 									</Cell>
@@ -73,10 +73,9 @@ function Board(props) {
 
 	/**
 	 * 오목판을 클릭합니다.
-	 * @param {*} y 오목판 y좌표 (index)
-	 * @param {*} x 오목판 x좌표 (index)
+	 * @param {*} yx [y, x] 오목판 y좌표, x좌표 (index)
 	 */
-	function onClickCell(y, x) {
+	async function onClickCell([y, x]) {
 		const isValid = isAlready(y, x) == false;
 		if (isValid == false) return; // early return
 
