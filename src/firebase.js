@@ -108,6 +108,21 @@ function playStone(roomKey, color, yx) {
   return promise;
 }
 
+/**
+ * 오목방 플레이 데이터 변경 이벤트의 리스너를 등록한다
+ * @see [데이터 읽기: Firebase 실시간 데이터베이스](https://firebase.google.com/docs/database/web/read-and-write?authuser=0#read_data)
+ * @param {*} roomKey 오목방의 key
+ * @param {*} callback 리스너(콜백) 함수. 첫번째 파라미터: firebase.database.DataSnapshot
+ * @see [firebase.database.DataSnapshot: DataSnapshot | JavaScript SDK | Firebase](https://firebase.google.com/docs/reference/node/firebase.database.DataSnapshot)
+ * @returns {Function} 리스너 구독 취소 함수
+ */
+function addOnValuePlayListener(roomKey, callback) {
+  const path = `/room/${roomKey}/play`;
+  const playRef = ref(database, path);
+  const unsubscribe = onValue(playRef, callback);
+  return unsubscribe;
+}
+
 export {
   firebaseApp,
   database,
@@ -115,4 +130,5 @@ export {
   joinRoom,
   getRoomSnapshot,
   playStone,
+  addOnValuePlayListener,
 };
