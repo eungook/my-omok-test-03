@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { getRoomSnapshot } from './firebase';
+import { getRoomSnapshot, joinRoom } from './firebase';
 import { colorState } from './atom';
 
 function Join() {
@@ -27,6 +27,7 @@ function Join() {
 		});
 		color = (color == 'W') ? 'B' : 'W';
 		setColor(color);
+		await joinRoom(roomKey, color);
 
 		const url = `/room/${roomKey}`;
 		history.replace(url);
