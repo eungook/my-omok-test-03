@@ -7,6 +7,7 @@ import {
   ref,
   update,
   onValue,
+  get,
 } from 'firebase/database';
 import dotenv from 'dotenv';
 
@@ -68,9 +69,23 @@ async function joinRoom(roomKey, color) {
   return key;
 }
 
+/**
+ * 오목방의 snapshot을 가져온다
+ * @param {*} roomKey 오목방의 key
+ * @returns 해당 오목방의 snapshot
+ */
+async function getRoomSnapshot(roomKey) {
+  const result = await get(child(ref(database), `/room/${roomKey}`));
+  if (result.exists() == false) return null; // early return
+
+  const snapshot = result.val();
+  return snapshot;
+}
+
 export {
   firebaseApp,
   database,
   createRoom,
   joinRoom,
+  getRoomSnapshot,
 };
