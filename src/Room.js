@@ -20,7 +20,9 @@ function Room() {
 			<h3>오목방</h3>
 			<h4>방번호: {roomKey}</h4>
 			<h4>나의 돌 색깔: {(color == 'W') ? '흰 돌' : '검은 돌'}</h4>
-			<Board />
+			<Board
+				roomKey={roomKey}
+			/>
 		</div>
 	);
 }

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { createRoom, joinRoom } from './firebase';
+import { createRoom, joinRoom, playStone } from './firebase';
 import { isOmok } from './omok';
 import { colorState } from './atom';
 import Cell from './Cell';
 
 function Board(props) {
+	const { roomKey } = props;
 	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
 	const [board, setBoard] = useState([
 		// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
@@ -81,6 +82,7 @@ function Board(props) {
 
 		board[y][x] = color;
 		setBoard(board);
+		await playStone(roomKey, color, [y, x]);
 
 		const last = [y, x];
 		const isWin = isOmok(board, last, color);
