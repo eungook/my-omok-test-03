@@ -83,10 +83,36 @@ async function getRoomSnapshot(roomKey) {
   return snapshot;
 }
 
+/**
+ * 오목판에 돌을 놓는다
+ * @param {*} roomKey 오목방의 key
+ * @param {*} color 돌 색깔
+ * @param {*} yx [y, x] 오목판 y좌표, x좌표 (index)
+ * @returns update()의 Promise
+ */
+function playStone(roomKey, color, yx) {
+  const updates = {};
+
+  const uri = `room/${roomKey}/play`;
+  const key = push(child(ref(database), uri)).key;
+  const now = new Date();
+  updates[`${uri}/${key}`] = {
+    createAt: now.getTime(),
+    createAtISO: now.toISOString(),
+    createAtLocale: now.toLocaleString(),
+    color,
+    yx,
+  };
+
+  const promise = update(ref(database), updates);
+  return promise;
+}
+
 export {
   firebaseApp,
   database,
   createRoom,
   joinRoom,
   getRoomSnapshot,
+  playStone,
 };
