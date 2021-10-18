@@ -56,9 +56,10 @@ async function createRoom() {
 async function joinRoom(roomKey, color) {
   const updates = {};
 
-  const key = push(child(ref(database), `room/${roomKey}/user`)).key;
+  const uri = `/room/${roomKey}/user`;
+  const key = push(child(ref(database), uri)).key;
   const now = new Date();
-  updates[`/room/${roomKey}/user/${key}`] = {
+  updates[`${uri}/${key}`] = {
     createAt: now.getTime(),
     createAtISO: now.toISOString(),
     createAtLocale: now.toLocaleString(),
