@@ -1,13 +1,32 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { createRoom, joinRoom, playStone } from './firebase';
+import { createRoom, joinRoom, playStone, addOnValuePlayListener } from './firebase';
 import { isOmok } from './omok';
-import { colorState } from './atom';
+import { colorState, playState } from './atom';
 import Cell from './Cell';
 
 function Board(props) {
 	const { roomKey } = props;
+
 	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+	const [play, setPlay] = useRecoilState(playState);
+
+	useEffect(() => addOnValuePlayListener(roomKey, (snapshot) => {
+		const play = snapshot.val();
+		console.log({
+			'where': '<Board />: addOnValuePlayListener()',
+			play,
+		});
+		setPlay(play);
+	}), []);
+
+	useEffect(() => {
+		console.log({
+			'where': 'useEffect([play])',
+			play,
+		});
+	}, [play]);
+
 	const [board, setBoard] = useState([
 		// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
 		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 0
