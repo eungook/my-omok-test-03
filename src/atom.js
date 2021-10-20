@@ -174,6 +174,42 @@ const isFinishState = atom({
 	default: false,
 });
 
+/**
+ * 현재 게임 방의 상태를 확인하는 selector
+ */
+const roomState = selector({
+	key: 'roomState',
+	get: ({ get }) => {
+		const last = get(lastState);
+		const isLast = (last > '');
+		if (isLast === false) {
+			return '흑돌이 둘 차례입니다.';
+		}
+
+		const [y, x] = last;
+		const board = get(boardState);
+		const color = board[y][x];
+
+		const isFinish = get(isFinishState);
+		if (isFinish) {
+			if (color === 'B') {
+				return '흑돌이 이겼습니다.';
+
+			} else if (color === 'W') {
+				return '백돌이 이겼습니다.';
+			}
+
+		} else {
+			if (color === 'B') {
+				return '백돌이 둘 차례입니다.';
+
+			} else if (color === 'W') {
+				return '흑돌이 둘 차례입니다.';
+			}
+		}
+	},
+});
+
 export {
 	colorState,
 	userState,
@@ -182,4 +218,5 @@ export {
 	lastState,
 	isCanPlayState,
 	isFinishState,
+	roomState,
 };

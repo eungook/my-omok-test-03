@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { colorState, userState } from './atom';
+import { colorState, userState, roomState } from './atom';
 import Board from './Board';
 
 function Room() {
 	const { roomKey } = useParams();
 	const color = useRecoilValue(colorState); // B: 검은 돌, W: 흰 돌
 	const user = useRecoilValue(userState);
+	const room = useRecoilValue(roomState);
 
 	useEffect(() => {
 		console.log({
@@ -24,6 +25,7 @@ function Room() {
 			<h4>나의 돌 색깔: {
 				{ 'W': '흰 돌', 'B': '검은 돌' }[color] || '알 수 없음'
 			}</h4>
+			<h4>게임 상태: {room}</h4>
 			<Board
 				roomKey={roomKey}
 			/>

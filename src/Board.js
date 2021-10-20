@@ -56,7 +56,7 @@ function Board(props) {
 
 		if (isWin) {
 			setIsFinish(true);
-			alert(`${color === 'B' ? '흑돌' : '백돌'}이 이겼습니다!`);
+			// alert(`${color === 'B' ? '흑돌' : '백돌'}이 이겼습니다!`);
 		}
 	}, [last, board, setIsFinish]);
 
