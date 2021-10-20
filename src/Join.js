@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getRoomSnapshot, joinRoom } from './firebase';
-import { colorState } from './atom';
+import { colorState, userState } from './atom';
 
 function Join() {
 	const history = useHistory();
 	const { roomKey } = useParams();
 	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+	const [user, setUser] = useRecoilState(userState);
 
 	useEffect(async () => {
 		const snapshot = await getRoomSnapshot(roomKey);
@@ -27,10 +28,12 @@ function Join() {
 		});
 		color = (color == 'W') ? 'B' : 'W';
 		setColor(color);
-		await joinRoom(roomKey, color);
+		const userKey = await joinRoom(roomKey, color);
+		setUser(userKey);
 
 		const url = `/room/${roomKey}`;
 		history.replace(url);
+
 	}, [roomKey]);
 
 	return (

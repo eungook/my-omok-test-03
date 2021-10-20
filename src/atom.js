@@ -34,6 +34,17 @@ const colorState = atom({
 });
 
 /**
+ * 현재 플레이어의 firebase /room/user/{key}의 recoil
+ */
+const userState = atom({
+	key: 'userState',
+	default: '',
+	effects_UNSTABLE: [
+		localStorageEffect('userState'),
+	],
+});
+
+/**
  * firebase /room/{roomKey}/play의 recoil
  */
 const playState = atom({
@@ -148,6 +159,7 @@ const isCanPlayState = selector({
 
 export {
 	colorState,
+	userState,
 	playState,
 	boardState,
 	lastState,

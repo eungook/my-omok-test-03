@@ -1,11 +1,12 @@
 import { useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { createRoom, joinRoom } from './firebase';
-import { colorState } from './atom';
+import { colorState, userState } from './atom';
 
 function Create() {
 	const history = useHistory();
 	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+	const [user, setUser] = useRecoilState(userState);
 
 	return (
 		<div>
@@ -41,6 +42,7 @@ function Create() {
 
 		const roomKey = await createRoom();
 		const userKey = await joinRoom(roomKey, color);
+		setUser(userKey);
 
 		console.log({
 			'where': 'onSubmitForm()',
