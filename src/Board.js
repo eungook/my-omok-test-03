@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { createRoom, joinRoom, playStone, addOnValuePlayListener } from './firebase';
 import { isOmok } from './omok';
-import { colorState, playState } from './atom';
+import { colorState, playState, boardState } from './atom';
 import Cell from './Cell';
 
 function Board(props) {
@@ -17,6 +17,7 @@ function Board(props) {
 			'where': '<Board />: addOnValuePlayListener()',
 			play,
 		});
+
 		setPlay(play);
 	}), []);
 
@@ -27,24 +28,34 @@ function Board(props) {
 		});
 	}, [play]);
 
-	const [board, setBoard] = useState([
-		// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 0
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 1
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 2
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 3
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 4
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 5
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 6
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 7
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 8
-		['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 9
-	]);
+	// const [board, setBoard] = useState([
+	// 	// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 0
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 1
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 2
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 3
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 4
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 5
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 6
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 7
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 8
+	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 9
+	// ]);
+	const board = useRecoilValue(boardState);
+	console.log({
+		'where': 'useRecoilValue(boardState)',
+		board,
+	});
 
 	return (
 		<>
 			<div id="div-board">
 				{board.map((row, y) => {
+					console.log({
+						'where': 'board.map()',
+						row,
+					});
+
 					return (
 						<div key={`row-${y}`}>
 							{row.map((cell, x) => {
@@ -99,8 +110,8 @@ function Board(props) {
 		const isValid = isAlready(y, x) == false;
 		if (isValid == false) return; // early return
 
-		board[y][x] = color;
-		setBoard(board);
+		// board[y][x] = color;
+		// setBoard(board);
 		await playStone(roomKey, color, [y, x]);
 
 		const last = [y, x];
