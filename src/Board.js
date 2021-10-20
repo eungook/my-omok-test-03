@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createRoom, joinRoom, playStone, addOnValuePlayListener } from './firebase';
 import { isOmok } from './omok';
-import { colorState, playState, boardState } from './atom';
+import { colorState, playState, boardState, lastState } from './atom';
 import Cell from './Cell';
 
 function Board(props) {
@@ -10,6 +10,8 @@ function Board(props) {
 
 	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
 	const [play, setPlay] = useRecoilState(playState);
+	const board = useRecoilValue(boardState);
+	const last = useRecoilValue(lastState);
 
 	useEffect(() => addOnValuePlayListener(roomKey, (snapshot) => {
 		const isValid = snapshot.exists();
@@ -33,24 +35,22 @@ function Board(props) {
 		});
 	}, [play]);
 
-	// const [board, setBoard] = useState([
-	// 	// 0 . 1 .. 2 .. 3 .. 4 .. 5 .. 6 .. 7 .. 8 .. 9 ..
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 0
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 1
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 2
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 3
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 4
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 5
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 6
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 7
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 8
-	// 	['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'], // 9
-	// ]);
-	const board = useRecoilValue(boardState);
-	console.log({
-		'where': 'useRecoilValue(boardState)',
-		board,
-	});
+	useEffect(() => {
+		const [y, x] = last;
+		const color = board[y][x];
+		const isWin = isOmok(board, last, color);
+		console.log({
+			'where': 'useEffect([board])',
+			last,
+			color,
+			board,
+			isWin,
+		});
+
+		if (isWin) {
+			alert(`${color === 'B' ? '흑돌' : '백돌'}이 이겼습니다!`);
+		}
+	}, [board]);
 
 	return (
 		<>
@@ -115,17 +115,9 @@ function Board(props) {
 		const isValid = isAlready(y, x) == false;
 		if (isValid == false) return; // early return
 
-		// board[y][x] = color;
-		// setBoard(board);
 		await playStone(roomKey, color, [y, x]);
 
-		const last = [y, x];
-		const isWin = isOmok(board, last, color);
-		if (isWin) {
-			alert(`${color === 'B' ? '흑돌' : '백돌'}이 이겼습니다!`);
-		}
-
-		toggleColor();
+		// toggleColor();
 	}
 }
 
