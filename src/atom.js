@@ -54,7 +54,7 @@ const boardState = selector({
 /**
  * 오목 게임에서 마지막으로 돌이 놓인 좌표의 selector
  * omok.js의 isOmok() 체크를 위해 만들었다.
- * @returns yx [y, x]
+ * @returns yx [y, x], false: 아직 시작하지 않은 오목 게임
  */
 const lastState = selector({
 	key: 'lastState',
@@ -63,7 +63,7 @@ const lastState = selector({
 		const list = Object.values(play);
 		const isValid = (list.length > 0);
 		if (isValid == false) {
-			return [0, 0]; // early return
+			return false; // early return
 		}
 
 		const last = list[list.length - 1];

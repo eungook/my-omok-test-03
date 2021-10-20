@@ -36,6 +36,11 @@ function Board(props) {
 	}, [play]);
 
 	useEffect(() => {
+		const isValid = (last > '');
+		if (isValid == false) {
+			return; // early return
+		}
+
 		const [y, x] = last;
 		const color = board[y][x];
 		const isWin = isOmok(board, last, color);
