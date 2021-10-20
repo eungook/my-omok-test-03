@@ -6,6 +6,12 @@
  * @returns {Boolean} 완성 여부
  */
 function isOmok(board, last, color) {
+	const isColor = (color == 'B' || color == 'W');
+	const isValid = (isColor);
+	if (isValid == false) {
+		return false; // early return
+	}
+
 	return (
 		isOmokVertical(board, last, color) ||
 		isOmokHorizontal(board, last, color) ||
