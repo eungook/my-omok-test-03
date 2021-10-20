@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createRoom, joinRoom, playStone, addOnValuePlayListener } from './firebase';
 import { isOmok } from './omok';
-import { colorState, playState, boardState, lastState } from './atom';
+import { colorState, playState, boardState, lastState, isCanPlayState } from './atom';
 import Cell from './Cell';
 
 function Board(props) {
@@ -12,6 +12,7 @@ function Board(props) {
 	const [play, setPlay] = useRecoilState(playState);
 	const board = useRecoilValue(boardState);
 	const last = useRecoilValue(lastState);
+	const isCanPlay = useRecoilValue(isCanPlayState);
 
 	useEffect(() => addOnValuePlayListener(roomKey, (snapshot) => {
 		const isValid = snapshot.exists();
@@ -73,6 +74,7 @@ function Board(props) {
 									<Cell
 										key={`cell-${y}-${x}`}
 										onClick={() => onClickCell([y, x])}
+										isCanPlay={isCanPlay}
 									>
 										{cell}
 									</Cell>
