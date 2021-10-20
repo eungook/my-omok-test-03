@@ -12,6 +12,11 @@ function Board(props) {
 	const [play, setPlay] = useRecoilState(playState);
 
 	useEffect(() => addOnValuePlayListener(roomKey, (snapshot) => {
+		const isValid = snapshot.exists();
+		if (isValid == false) {
+			return; // early return
+		}
+
 		const play = snapshot.val();
 		console.log({
 			'where': '<Board />: addOnValuePlayListener()',
