@@ -72,9 +72,35 @@ const lastState = selector({
 	}
 });
 
+/**
+ * 오목 게임에서 현재 내가 돌을 놓을 수 있는 상태인지를 확인하는 selector
+ */
+const isCanPlayState = selector({
+	key: 'isCanPlayState',
+	get: ({ get }) => {
+		const color = get(colorState);
+		const isColor = (color > '');
+		if (isColor == false) {
+			return false; // early return
+		}
+
+		const last = get(lastState);
+		const isLast = (last > '');
+		if (isLast == false) {
+			return false; // early return
+		}
+
+		const [y, x] = last;
+		const board = get(boardState);
+		const isCanPlay = (board[y][x] != color);
+		return isCanPlay;
+	},
+});
+
 export {
 	colorState,
 	playState,
 	boardState,
 	lastState,
+	isCanPlayState,
 };
