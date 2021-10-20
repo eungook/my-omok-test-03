@@ -1,4 +1,29 @@
-import { atom, selector } from 'recoil';
+import {
+	atom,
+	selector,
+	DefaultValue,
+} from 'recoil';
+
+/**
+ * 브라우저 새로고침에도 atom이 유지될 수 있도록 하는 함수
+ * @see [Atom Effects: Local Storage Persistence (로컬 스토리지 지속성)](https://recoiljs.org/ko/docs/guides/atom-effects/#local-storage-persistence-%EB%A1%9C%EC%BB%AC-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%A7%80%EC%86%8D%EC%84%B1)
+ * @param {*} key 
+ * @returns 
+ */
+const localStorageEffect = key => ({ setSelf, onSet }) => {
+	const savedValue = localStorage.getItem(key)
+	if (savedValue != null) {
+		setSelf(JSON.parse(savedValue));
+	}
+
+	onSet(newValue => {
+		if (newValue instanceof DefaultValue) {
+			localStorage.removeItem(key);
+		} else {
+			localStorage.setItem(key, JSON.stringify(newValue));
+		}
+	});
+};
 
 const colorState = atom({
 	key: 'colorState',
