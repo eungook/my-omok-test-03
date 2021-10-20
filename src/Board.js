@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { playStone, addOnValuePlayListener } from './firebase';
 import { isOmok } from './omok';
-import { colorState, playState, boardState, lastState, isCanPlayState } from './atom';
+import { colorState, playState, boardState, lastState, isCanPlayState, isFinishState } from './atom';
 import Cell from './Cell';
 
 function Board(props) {
@@ -54,6 +54,7 @@ function Board(props) {
 		});
 
 		if (isWin) {
+			setIsFinish(true);
 			alert(`${color === 'B' ? '흑돌' : '백돌'}이 이겼습니다!`);
 		}
 	}, [board]);

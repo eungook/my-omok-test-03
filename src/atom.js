@@ -117,6 +117,15 @@ const lastState = selector({
 const isCanPlayState = selector({
 	key: 'isCanPlayState',
 	get: ({ get }) => {
+		const isFinish = get(isFinishState);
+		console.log({
+			'where': 'isCanPlayState()',
+			isFinish,
+		});
+		if (isFinish) {
+			return false; // early return
+		}
+
 		const color = get(colorState);
 		const isColor = (color > '');
 		console.log({
@@ -157,6 +166,14 @@ const isCanPlayState = selector({
 	},
 });
 
+/**
+ * 게임이 종료된 상태인지 확인하는 atom
+ */
+const isFinishState = atom({
+	key: 'isFinishState',
+	default: false,
+});
+
 export {
 	colorState,
 	userState,
@@ -164,4 +181,5 @@ export {
 	boardState,
 	lastState,
 	isCanPlayState,
+	isFinishState,
 };
