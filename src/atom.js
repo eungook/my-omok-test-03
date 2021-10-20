@@ -80,19 +80,40 @@ const isCanPlayState = selector({
 	get: ({ get }) => {
 		const color = get(colorState);
 		const isColor = (color > '');
+		console.log({
+			'where': 'isCanPlayState()',
+			color,
+			isColor,
+		});
 		if (isColor == false) {
 			return false; // early return
 		}
 
 		const last = get(lastState);
 		const isLast = (last > '');
-		if (isLast == false) {
+		const isFirst = (last == false);
+		console.log({
+			'where': 'isCanPlayState()',
+			last,
+			isLast,
+			isFirst,
+		});
+		if (isFirst && color == 'B') {
+			return true; // 흑돌 선
+
+		} else if (isLast == false) {
 			return false; // early return
 		}
 
 		const [y, x] = last;
 		const board = get(boardState);
 		const isCanPlay = (board[y][x] != color);
+		console.log({
+			'where': 'isCanPlayState()',
+			'board[y][x]': board[y][x],
+			color,
+			isCanPlay,
+		});
 		return isCanPlay;
 	},
 });
