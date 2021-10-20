@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getRoomSnapshot, joinRoom } from './firebase';
 import { colorState, userState } from './atom';
 
 function Join() {
 	const history = useHistory();
 	const { roomKey } = useParams();
-	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
-	const [user, setUser] = useRecoilState(userState);
+	const setColor = useSetRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+	const setUser = useSetRecoilState(userState);
 
 	useEffect(async () => {
 		const snapshot = await getRoomSnapshot(roomKey);
@@ -18,7 +18,9 @@ function Join() {
 		});
 
 		const isValid = (snapshot > '');
-		if (isValid == false) return; // early return
+		if (isValid == false) {
+			return; // early return
+		}
 
 		const user = Object.values(snapshot.user)[0];
 		let { color } = user;

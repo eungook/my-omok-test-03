@@ -1,12 +1,12 @@
 import { useHistory } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { createRoom, joinRoom } from './firebase';
 import { colorState, userState } from './atom';
 
 function Create() {
 	const history = useHistory();
-	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
-	const [user, setUser] = useRecoilState(userState);
+	const setColor = useSetRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+	const setUser = useSetRecoilState(userState);
 
 	return (
 		<div>

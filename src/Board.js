@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { createRoom, joinRoom, playStone, addOnValuePlayListener } from './firebase';
+import { playStone, addOnValuePlayListener } from './firebase';
 import { isOmok } from './omok';
 import { colorState, playState, boardState, lastState, isCanPlayState } from './atom';
 import Cell from './Cell';
