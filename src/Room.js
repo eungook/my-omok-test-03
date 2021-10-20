@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { colorState } from './atom';
 import Board from './Board';
 
 function Room() {
 	const { roomKey } = useParams();
-	const [color, setColor] = useRecoilState(colorState); // B: 검은 돌, W: 흰 돌
+	const color = useRecoilValue(colorState); // B: 검은 돌, W: 흰 돌
 
 	useEffect(() => {
 		console.log({
