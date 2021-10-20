@@ -101,7 +101,7 @@ const lastState = selector({
 		const play = get(playState);
 		const list = Object.values(play);
 		const isValid = (list.length > 0);
-		if (isValid == false) {
+		if (isValid === false) {
 			return false; // early return
 		}
 
@@ -133,29 +133,29 @@ const isCanPlayState = selector({
 			color,
 			isColor,
 		});
-		if (isColor == false) {
+		if (isColor === false) {
 			return false; // early return
 		}
 
 		const last = get(lastState);
 		const isLast = (last > '');
-		const isFirst = (last == false);
+		const isFirst = (last === false);
 		console.log({
 			'where': 'isCanPlayState()',
 			last,
 			isLast,
 			isFirst,
 		});
-		if (isFirst && color == 'B') {
+		if (isFirst && color === 'B') {
 			return true; // 흑돌 선
 
-		} else if (isLast == false) {
+		} else if (isLast === false) {
 			return false; // early return
 		}
 
 		const [y, x] = last;
 		const board = get(boardState);
-		const isCanPlay = (board[y][x] != color);
+		const isCanPlay = (board[y][x] !== color);
 		console.log({
 			'where': 'isCanPlayState()',
 			'board[y][x]': board[y][x],

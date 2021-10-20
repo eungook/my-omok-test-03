@@ -14,7 +14,7 @@ function Room() {
 			'where': 'Room()',
 			roomKey,
 		});
-	}, []);
+	}, [roomKey]);
 
 	return (
 		<div>
@@ -22,7 +22,8 @@ function Room() {
 			<h4>방번호: {roomKey}</h4>
 			<h4>user: {user}</h4>
 			<h4>나의 돌 색깔: {
-				(color == 'W') ? '흰 돌' : (color == 'B') ? '검은 돌' : '알 수 없음'}</h4>
+				{ 'W': '흰 돌', 'B': '검은 돌' }[color] || '알 수 없음'
+			}</h4>
 			<Board
 				roomKey={roomKey}
 			/>

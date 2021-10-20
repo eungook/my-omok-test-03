@@ -77,7 +77,7 @@ async function joinRoom(roomKey, color) {
  */
 async function getRoomSnapshot(roomKey) {
   const result = await get(child(ref(database), `/room/${roomKey}`));
-  if (result.exists() == false) return null; // early return
+  if (result.exists() === false) return null; // early return
 
   const snapshot = result.val();
   return snapshot;

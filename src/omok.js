@@ -6,9 +6,9 @@
  * @returns {Boolean} 완성 여부
  */
 function isOmok(board, last, color) {
-	const isColor = (color == 'B' || color == 'W');
+	const isColor = (color === 'B' || color === 'W');
 	const isValid = (isColor);
-	if (isValid == false) {
+	if (isValid === false) {
 		return false; // early return
 	}
 
@@ -173,10 +173,10 @@ function isOmokBackslash(board, last, color) {
  */
 function isSameColor(board, yx, color) {
 	const isValid = isValidYX(yx);
-	if (isValid == false) return false; // early return
+	if (isValid === false) return false; // early return
 
 	const [y, x] = yx;
-	if (board[y][x] == color) {
+	if (board[y][x] === color) {
 		return true;
 		//
 	} else {
@@ -191,8 +191,8 @@ function isSameColor(board, yx, color) {
  */
 function isValidYX(yx) {
 	const [y, x] = yx;
-	if ((0 <= y && y <= 9) == false) return false; // early return
-	if ((0 <= x && x <= 9) == false) return false; // early return
+	if ((0 <= y && y <= 9) === false) return false; // early return
+	if ((0 <= x && x <= 9) === false) return false; // early return
 	return true;
 }
 

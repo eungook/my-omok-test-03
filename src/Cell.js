@@ -3,7 +3,7 @@ function Cell(props) {
 	return (
 		<button
 			onClick={onClick}
-			{...((isCanPlay == false) && { disabled: true })}
+			{...((isCanPlay === false) && { disabled: true })}
 		>
 			{children}
 		</button>

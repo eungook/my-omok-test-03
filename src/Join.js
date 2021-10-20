@@ -10,33 +10,35 @@ function Join() {
 	const setColor = useSetRecoilState(colorState); // B: 검은 돌, W: 흰 돌
 	const setUser = useSetRecoilState(userState);
 
-	useEffect(async () => {
-		const snapshot = await getRoomSnapshot(roomKey);
-		console.log({
-			'where': 'Join()',
-			snapshot,
-		});
+	useEffect(() => {
+		(async () => {
+			const snapshot = await getRoomSnapshot(roomKey);
+			console.log({
+				'where': 'Join()',
+				snapshot,
+			});
 
-		const isValid = (snapshot > '');
-		if (isValid == false) {
-			return; // early return
-		}
+			const isValid = (snapshot > '');
+			if (isValid === false) {
+				return; // early return
+			}
 
-		const user = Object.values(snapshot.user)[0];
-		let { color } = user;
-		console.log({
-			'where': 'Join()',
-			color,
-		});
-		color = (color == 'W') ? 'B' : 'W';
-		setColor(color);
-		const userKey = await joinRoom(roomKey, color);
-		setUser(userKey);
+			const user = Object.values(snapshot.user)[0];
+			let { color } = user;
+			console.log({
+				'where': 'Join()',
+				color,
+			});
+			color = (color === 'W') ? 'B' : 'W';
+			setColor(color);
+			const userKey = await joinRoom(roomKey, color);
+			setUser(userKey);
 
-		const url = `/room/${roomKey}`;
-		history.replace(url);
+			const url = `/room/${roomKey}`;
+			history.replace(url);
+		})();
 
-	}, [roomKey]);
+	}, [roomKey, history, setColor, setUser]);
 
 	return (
 		<div>

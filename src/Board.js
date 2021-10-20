@@ -13,10 +13,11 @@ function Board(props) {
 	const board = useRecoilValue(boardState);
 	const last = useRecoilValue(lastState);
 	const isCanPlay = useRecoilValue(isCanPlayState);
+	const setIsFinish = useSetRecoilState(isFinishState);
 
 	useEffect(() => addOnValuePlayListener(roomKey, (snapshot) => {
 		const isValid = snapshot.exists();
-		if (isValid == false) {
+		if (isValid === false) {
 			return; // early return
 		}
 
@@ -27,7 +28,7 @@ function Board(props) {
 		});
 
 		setPlay(play);
-	}), []);
+	}), [roomKey, setPlay]);
 
 	useEffect(() => {
 		console.log({
@@ -38,7 +39,7 @@ function Board(props) {
 
 	useEffect(() => {
 		const isValid = (last > '');
-		if (isValid == false) {
+		if (isValid === false) {
 			return; // early return
 		}
 
@@ -57,40 +58,31 @@ function Board(props) {
 			setIsFinish(true);
 			alert(`${color === 'B' ? '흑돌' : '백돌'}이 이겼습니다!`);
 		}
-	}, [board]);
+	}, [last, board, setIsFinish]);
 
 	return (
 		<>
 			<div id="div-board">
-				{board.map((row, y) => {
-					console.log({
-						'where': 'board.map()',
-						row,
-					});
-
-					return (
-						<div key={`row-${y}`}>
-							{row.map((cell, x) => {
-								return (
-									<Cell
-										key={`cell-${y}-${x}`}
-										onClick={() => onClickCell([y, x])}
-										isCanPlay={isCanPlay}
-									>
-										{cell}
-									</Cell>
-								);
-							})}
-						</div>
-					);
-				})}
+				{board.map((row, y) => (
+					<div key={`row-${y}`}>
+						{row.map((cell, x) => (
+							<Cell
+								key={`cell-${y}-${x}`}
+								onClick={() => onClickCell([y, x])}
+								isCanPlay={isCanPlay}
+							>
+								{cell}
+							</Cell>
+						))}
+					</div>
+				))}
 			</div>
 			<style jsx>{`
-			button {
-				width: 50px;
-				height: 50px;
-			}
-		`}</style>
+				button {
+					width: 50px;
+					height: 50px;
+				}
+			`}</style>
 		</>
 	);
 
@@ -120,8 +112,10 @@ function Board(props) {
 	 * @param {*} yx [y, x] 오목판 y좌표, x좌표 (index)
 	 */
 	async function onClickCell([y, x]) {
-		const isValid = isAlready(y, x) == false;
-		if (isValid == false) return; // early return
+		const isValid = (isAlready(y, x) === false);
+		if (isValid === false) {
+			return; // early return
+		}
 
 		await playStone(roomKey, color, [y, x]);
 
